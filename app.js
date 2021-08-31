@@ -10,7 +10,6 @@ const searchField = document.querySelector('.search-field')
 const searchInput = document.querySelector('.search-input')
 const searchButton = document.querySelector('#search-button')
 
-
 //Result Selectors
 const main = document.querySelector('main')
 
@@ -49,8 +48,8 @@ searchButton.onclick = e => {
         validationError()
     } else {
         //From a form search user will always get the first page of search engine results
-        webStartIndex = 1
-        imageStartIndex = 1
+        webStartIndex = 0
+        imageStartIndex = 0
 
         //Two calls will be made one for web and one for image results for the same form search value
         runWebQuery(searchInput.value)
@@ -61,7 +60,7 @@ searchButton.onclick = e => {
 
         //Search value is stored for pagination control to rerun the query for web or image results independently
         searchValue = searchInput.value
-    
+
         //Form will be reset for future searches
         searchInput.value = ''
         searchInput.setAttribute('placeholder', 'Search something!')
@@ -74,11 +73,11 @@ searchButton.onclick = e => {
 
 const validationError = error => {
     //If script passes an API error, user will informed that the service is unavailable.
-    if(error !== undefined) {
+    if (error !== undefined) {
         searchInput.setAttribute('placeholder', 'Service unavailable, please try later!')
         searchInput.classList = 'search-input search-input-active search-input-validation'
         searchField.classList = 'search-field search-field-active search-field-validation'
-    //If script passes no API error, user didn't search anything on the form preventing empty value API calls.
+        //If script passes no API error, user didn't search anything on the form preventing empty value API calls.
     } else {
         searchInput.setAttribute('placeholder', 'Oopsie Doopsie!')
         searchInput.classList = 'search-input search-input-active search-input-validation'
@@ -869,11 +868,10 @@ let searchValue = ''
 
 const runWebQuery = async searchQuery => {
     try {
-        const response = await fetch(`https://www.googleapis.com/customsearch/v1?key=${APIKey}&cx=${searchEngineId}&q=${searchQuery}&start=${webStartIndex}`)
+        const response = await fetch(`https://www.googleapis.com/customsearch/v1?key=${APIKey}&cx=${searchEngineId}&q=${searchQuery}&start=${webStartIndex + 1}`)
         const data = await response.json()
         searchSuccess()
         renderWebResults()
-        console.log(data)
         data.items.map(result => web(result))
         webPanelInformation.innerText = `Found ${data.searchInformation.formattedTotalResults} results in ${data.searchInformation.formattedSearchTime} seconds.`
     } catch (error) {
@@ -891,11 +889,10 @@ const runWebQuery = async searchQuery => {
 
 const runImageQuery = async searchQuery => {
     try {
-        const response = await fetch(`https://www.googleapis.com/customsearch/v1?key=${APIKey}&cx=${searchEngineId}&searchType=image&q=${searchQuery}&start=${imageStartIndex}`)
+        const response = await fetch(`https://www.googleapis.com/customsearch/v1?key=${APIKey}&cx=${searchEngineId}&searchType=image&q=${searchQuery}&start=${imageStartIndex + 1}`)
         const data = await response.json()
         searchSuccess()
         renderImageResults()
-        console.log(data)
         data.items.map(result => image(result))
         imagePanelInformation.innerText = `Found ${data.searchInformation.formattedTotalResults} results in ${data.searchInformation.formattedSearchTime} seconds.`
     } catch (error) {
@@ -1006,26 +1003,26 @@ const image = result => {
 
 const renderWebPagination = () => {
     //Checks pagination current state and renders itself for user interfaction
-    if (webStartIndex === 1) {
+    if (webStartIndex === 0) {
         webPageFirst.style.display = 'none'
         webPageBefore.style.display = 'none'
         webPageCurrent.innerText = webStartIndex
-        webPageAfter.innerText = webStartIndex + 1
+        webPageAfter.innerText = (webStartIndex + 10)/10
         webPageAfter.style.display = 'flex'
         webPageLast.style.display = 'flex'
-    } else if (webStartIndex === 10) {
+    } else if (webStartIndex === 90) {
         webPageFirst.style.display = 'flex'
         webPageBefore.style.display = 'flex'
-        webPageBefore.innerText = webStartIndex - 1
-        webPageCurrent.innerText = webStartIndex
+        webPageBefore.innerText = (webStartIndex - 10) / 10
+        webPageCurrent.innerText = (webStartIndex) / 10
         webPageAfter.style.display = 'none'
         webPageLast.style.display = 'none'
     } else {
         webPageFirst.style.display = 'flex'
         webPageBefore.style.display = 'flex'
-        webPageBefore.innerText = webStartIndex - 1
-        webPageCurrent.innerText = webStartIndex
-        webPageAfter.innerText = webStartIndex + 1
+        webPageBefore.innerText = (webStartIndex - 10) / 10
+        webPageCurrent.innerText = (webStartIndex) / 10
+        webPageAfter.innerText = (webStartIndex + 10) / 10
         webPageAfter.style.display = 'flex'
         webPageLast.style.display = 'flex'
     }
@@ -1033,31 +1030,30 @@ const renderWebPagination = () => {
 
 const renderImagePagination = () => {
     //Checks pagination current state and renders itself for user interfaction
-    if (imageStartIndex === 1) {
+    if (imageStartIndex === 0) {
         imagePageFirst.style.display = 'none'
         imagePageBefore.style.display = 'none'
         imagePageCurrent.innerText = imageStartIndex
-        imagePageAfter.innerText = imageStartIndex + 1
+        imagePageAfter.innerText = (imageStartIndex + 10)/10
         imagePageAfter.style.display = 'flex'
         imagePageLast.style.display = 'flex'
-    } else if (imageStartIndex === 10) {
+    } else if (imageStartIndex === 90) {
         imagePageFirst.style.display = 'flex'
         imagePageBefore.style.display = 'flex'
-        imagePageBefore.innerText = imageStartIndex - 1
-        imagePageCurrent.innerText = imageStartIndex
+        imagePageBefore.innerText = (imageStartIndex - 10) / 10
+        imagePageCurrent.innerText = (imageStartIndex) / 10
         imagePageAfter.style.display = 'none'
         imagePageLast.style.display = 'none'
     } else {
         imagePageFirst.style.display = 'flex'
         imagePageBefore.style.display = 'flex'
-        imagePageBefore.innerText = imageStartIndex - 1
-        imagePageCurrent.innerText = imageStartIndex
-        imagePageAfter.innerText = imageStartIndex + 1
+        imagePageBefore.innerText = (imageStartIndex - 10) / 10
+        imagePageCurrent.innerText = (imageStartIndex) / 10
+        imagePageAfter.innerText = (imageStartIndex + 10) / 10
         imagePageAfter.style.display = 'flex'
         imagePageLast.style.display = 'flex'
     }
 }
-
 
 //Form Event Listeners for Validation
 
@@ -1081,56 +1077,56 @@ searchInput.addEventListener('blur', () => {
 //Pagination Controls
 
 webPageFirst.onclick = () => {
-    webStartIndex = 1
+    webStartIndex = 0
     renderWebResults()
     renderWebPagination()
     runWebQuery(searchValue)
 }
 
 webPageBefore.onclick = () => {
-    webStartIndex -= 1
+    webStartIndex = webStartIndex - 10
     renderWebResults()
     renderWebPagination()
     runWebQuery(searchValue)
 }
 
 webPageAfter.onclick = () => {
-    webStartIndex += 1
+    webStartIndex = webStartIndex + 10
     renderWebResults()
     renderWebPagination()
     runWebQuery(searchValue)
 }
 
 webPageLast.onclick = () => {
-    webStartIndex = 10
+    webStartIndex = 90
     renderWebResults()
     renderWebPagination()
     runWebQuery(searchValue)
 }
 
 imagePageFirst.onclick = () => {
-    imageStartIndex = 1
+    imageStartIndex = 0
     renderImageResults()
     renderImagePagination()
     runImageQuery(searchValue)
 }
 
 imagePageBefore.onclick = () => {
-    imageStartIndex -= 1
+    imageStartIndex = imageStartIndex - 10
     renderImageResults()
     renderImagePagination()
     runImageQuery(searchValue)
 }
 
 imagePageAfter.onclick = () => {
-    imageStartIndex += 1
+    imageStartIndex = imageStartIndex + 10
     renderImageResults()
     renderImagePagination()
     runImageQuery(searchValue)
 }
 
 imagePageLast.onclick = () => {
-    imageStartIndex = 10
+    imageStartIndex = 90
     renderImageResults()
     renderImagePagination()
     runImageQuery(searchValue)
