@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="./base.css">
+    <link rel="stylesheet" href="./style.css">
+
+    <!-- Icons Library -->
+    <script src="https://kit.fontawesome.com/7cf8f42eb1.js" crossorigin="anonymous"></script>
+
+    <!-- Primary Meta Tags -->
+    <title>Programmable Search Engine</title>
+    <meta name="title" content="Programmable Search Engine">
+    <meta name="description"
+        content="Programmable Search Engine enables you to create a search engine for your website, your blog, or a collection of websites.">
+    <link rel="icon" href="./search.svg" type="image/svg" sizes="16x16">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://psearchengine.vercel.app/">
+    <meta property="og:title" content="Programmable Search Engine">
+    <meta property="og:description"
+        content="Programmable Search Engine enables you to create a search engine for your website, your blog, or a collection of websites.">
+    <meta property="og:image" content="./image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://psearchengine.vercel.app/">
+    <meta property="twitter:title" content="Programmable Search Engine">
+    <meta property="twitter:description"
+        content="Programmable Search Engine enables you to create a search engine for your website, your blog, or a collection of websites.">
+    <meta property="twitter:image" content="./image.png">
+
+</head>
+
+<body>
+
+    <section id="search" class="search-home">
+        <h1><a href="/" id="search-header">Programmable Search Engine</a></h1>
+        <form action="submit" class="form-home">
+            <div class="search-field">
+                <i class="fas fa-search"></i>
+                <input type="text" class="search-input" name="search-input" placeholder="Search something!">
+            </div>
+            <button id="search-button"></button>
+        </form>
+    </section>
+
+    <main>
+        <div id="results">
+            <div id="left-panel">
+                <h2 id="web-panel-title"><i class="fas fa-search"></i>Web Results</h2>
+                <p id="web-panel-information"></p>
+                <div id="web-pagination">
+                    <button id="web-page-first"><i class="fas fa-angle-left"></i></button>
+                    <button id="web-page-before"></button>
+                    <button id="web-page-current"></button>
+                    <button id="web-page-after"></button>
+                    <button id="web-page-last"><i class="fas fa-angle-right"></i></button>
+                </div>
+            </div>
+            <div id="right-panel">
+                <h2 id="image-panel-title"><i class="far fa-image"></i>Image Results</h2>
+                <p id="image-panel-information"></p>
+                <div id="image-pagination">
+                    <button id="image-page-first"><i class="fas fa-angle-left"></i></button>
+                    <button id="image-page-before"></button>
+                    <button id="image-page-current"></button>
+                    <button id="image-page-after"></button>
+                    <button id="image-page-last"><i class="fas fa-angle-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="./app.js"></script>
+</body>
+
+</html>
