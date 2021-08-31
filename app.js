@@ -40,6 +40,14 @@ const imagePageLast = document.querySelector('#image-page-last')
 
 //Form Control
 
+searchInput.addEventListener('keydown', (e) => {
+    //Adding event listener to input field for mobile and iOS user accesibility.
+    if(e.key === "Enter") {
+        searchButton.click()
+        e.preventDefault()
+    }
+})
+
 searchButton.onclick = e => {
     //Prevent form from submitting and just controlling user interaction
     e.preventDefault()
@@ -1007,7 +1015,7 @@ const renderWebPagination = () => {
         webPageFirst.style.display = 'none'
         webPageBefore.style.display = 'none'
         webPageCurrent.innerText = webStartIndex
-        webPageAfter.innerText = (webStartIndex + 10)/10
+        webPageAfter.innerText = (webStartIndex + 10) / 10
         webPageAfter.style.display = 'flex'
         webPageLast.style.display = 'flex'
     } else if (webStartIndex === 90) {
@@ -1034,7 +1042,7 @@ const renderImagePagination = () => {
         imagePageFirst.style.display = 'none'
         imagePageBefore.style.display = 'none'
         imagePageCurrent.innerText = imageStartIndex
-        imagePageAfter.innerText = (imageStartIndex + 10)/10
+        imagePageAfter.innerText = (imageStartIndex + 10) / 10
         imagePageAfter.style.display = 'flex'
         imagePageLast.style.display = 'flex'
     } else if (imageStartIndex === 90) {
